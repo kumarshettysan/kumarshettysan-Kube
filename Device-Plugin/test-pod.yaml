@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod
+spec:
+  containers:
+  - name: test-container
+    image: busybox
+    command: ["sleep", "3600"]
+    resources:
+      requests:
+        example.com/fake-device: 1

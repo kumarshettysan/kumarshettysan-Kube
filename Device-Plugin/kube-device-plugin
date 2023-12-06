@@ -1,0 +1,47 @@
+// device-plugin.go
+package main
+
+import (
+	"context"
+	"fmt"
+	"net"
+	"os"
+	"strings"
+	"time"
+
+	"google.golang.org/grpc"
+	"k8s.io/kubernetes/pkg/kubelet/apis/deviceplugin/v1beta1"
+)
+
+const (
+	resourceName = "example.com/fake-device"
+)
+
+type FakeDevicePlugin struct {
+	socket       string
+	devices      []*v1beta1.Device
+	stopCh       chan struct{}
+	deviceList   string
+}
+
+func NewFakeDevicePlugin(socket, deviceList string) *FakeDevicePlugin {
+	return &FakeDevicePlugin{
+		socket:     socket,
+		deviceList: deviceList,
+		stopCh:     make(chan struct{}),
+	}
+}
+
+// Implement the required methods for DevicePlugin interface...
+
+func main() {
+	socket := "/var/lib/kubelet/device-plugins/fake-device.sock"
+	deviceList := os.Getenv("DEVICE_LIST")
+
+	fakeDevicePlugin := NewFakeDevicePlugin(socket, deviceList)
+
+	if err := fakeDevicePlugin.Start(); err != nil {
+		fmt.Fprintf(os.Stderr, "Error starting device plugin: %v\n", err)
+		os.Exit(1)
+	}
+}

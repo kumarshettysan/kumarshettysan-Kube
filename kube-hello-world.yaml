@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-world-pod
+spec:
+  initContainers:
+  - name: builder
+    image: builder-image:latest
+    volumeMounts:
+    - name: shared-data
+      mountPath: /output
+  containers:
+  - name: hello-world
+    image: hello-world-image:latest
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: shared-data
+      mountPath: /usr/share/nginx/html
+  volumes:
+  - name: shared-data
+    emptyDir: {}

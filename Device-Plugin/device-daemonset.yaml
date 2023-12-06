@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: device-plugin-daemonset
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: device-plugin
+  template:
+    metadata:
+      labels:
+        name: device-plugin
+    spec:
+      hostNetwork: true
+      containers:
+      - name: device-plugin
+        image: kumarshetty.artifactory/dockerlocal-artifactory/fake-device-plugin:latest
+        env:
+        - name: DEVICE_LIST
+          value: "device1,device2,device3"

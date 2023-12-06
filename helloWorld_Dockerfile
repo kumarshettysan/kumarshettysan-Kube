@@ -1,0 +1,3 @@
+# Use NGINX as a lightweight web server
+FROM nginx:alpine
+COPY index.html /usr/share/nginx/html/

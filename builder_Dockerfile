@@ -1,0 +1,6 @@
+# Use a base image with necessary tools for building
+FROM alpine:latest
+WORKDIR /app
+COPY . /app
+# Add your build script here (e.g., download files, set up environment, etc.)
+CMD ["sh", "-c", "./build.sh"]
